@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script>
+    //http://stackoverflow.com/questions/9491885/csv-to-array-in-d3-js
+    d3.csv("state_sum.csv", function(data) {
+        var datas ={};
+        data.forEach(function(d) {
+            datas[d.State] = {
+                Total_Payments: d.Total_Payments, 
+                Total_Discharge: d.Total_Discharge,
+                Total_Payments_per_Discharge: d.Total_Payments_per_Discharge 
+            };
+            var tmp =1;
+        });
+
+        var dataArray = new Array;
+        for(var key in datas) {
+            dataArray.push(+ datas[key].Total_Payments);
+        }
+
+        
+        var max_val = d3.max(dataArray);
+    });
+
+</script>
+
+</body>
+
+</html>
