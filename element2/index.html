@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Gilda+Display" />
+<script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+<style type="text/css">      
+      body{
+        background-color:#ffffff;
+        font-family:'Gilda Display', serif;
+        color:#666666;
+        font-size:15px;
+      }
+      a{
+          color:#999999;
+      }
+      div{
+        margin-bottom:10px;
+      }
+      .container{
+        width:1000px;
+        margin-left:auto;
+        margin-right:auto;
+        margin-top:20px;
+      }
+      .maintitle{
+        color:#EDC951;        
+        font-size:50px;
+      }
+      .subtitle{ 
+        color:#00A0B0;
+        font-size:40px;
+        border-bottom:1px solid #444444;
+      }
+      .subsubtitle{
+          color:#CC333F;
+          font-size:20px;
+      }
+      .donut{
+        width:50%;
+        position:relative;
+        float:left;
+      }
+      #timeline{ 
+          height:200px;
+      }
+      #distribution{
+        height:500px;
+        margin-bottom:100px;
+      }
+      .bar {
+        fill:#EDC951;
+      }
+      .axis path,.axis line {
+          fill:none;
+          stroke:#444444;
+          shape-rendering:crispEdges;
+      }
+      .axis text {
+        font-family:'Gilda Display', serif;
+        fill:#EDC951;   
+      }
+      .bartext {
+        fill:#EDC951;
+        text-anchor:middle;
+        font-size:12px;
+      }
+      .arc path {
+
+      }
+      .radios{
+        width:25%;
+        position:relative;
+        float:left;
+      }
+      .popup{
+          visibility:hidden;
+          border:1px solid #aaaaaa;
+          position:absolute;
+          background-color:#f2f2f2;/*323232*/
+          color: #755800 ;/*#EDC951;*/
+          padding:10px;
+          z-index:10;
+          opacity:0.9;
+      }
+      .thumb{
+          height:210px;
+          width:280px;
+          margin:10px;
+          background-color:#333333;
+          text-align:center;
+      }
+      .popdetails{
+          width:220px;
+      }
+      .poptitle, .popdetail{
+          font-size:15px;
+          position:relative;
+          float:left;
+      }
+      .poptitle{
+          width:120px;
+          color:#00A0B0;
+      }
+      .popdetail{
+          width:100px;
+      }
+      .footer{
+          padding-top:40px;
+      }
+
+  </style>
+
+
+  <title></title></head><body>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+  <script src="numeral.min.js"></script>
+  <div class="popup" id="popup">
+    <!-- <div class="thumb"><img id="thumb" src="thumbnails/loading.gif" name="thumb" /></div> -->
+    <div class="popdetails">
+        <div class="poptitle">State</div>
+        <div class="popdetail" id="popstate"></div>
+        <div class="poptitle">Region</div>
+        <div class="popdetail" id="popregion"></div>
+        <div class="poptitle">Total Payments</div>
+        <div class="popdetail" id="poptp"></div>
+        <div class="poptitle">Total Discharge</div>
+        <div class="popdetail" id="poptd"></div>
+        <div class="poptitle">Total Payments Per Discharge</div>
+        <div class="popdetail" id="poptpd"></div>
+    </div>
+</div>
+
+<div class="popup" id="donuttip">
+    <div id="donutDetail"></div>
+</div>
+
+<div class="container">
+
+<div class="maintitle">Element 2</div>
+
+<div class="subtitle">Distribution</div>
+
+<div class="radiocontainer">
+    <div>text here.</div>
+    
+    <div id="radio1" class="radios">
+        <span class="subsubtitle">X-Axis</span><br />
+        <form name="radxform" id="radxform">
+            <input name="radxaxis" type="radio" value="xdefault" checked="" /> Default<br />
+        </form>
+    </div>
+
+    <div id="radio2" class="radios">
+        <span class="subsubtitle">Y-Axis</span><br />
+        <form name="radyform" id="radyform">
+            <input name="radyaxis" type="radio" value="ytp" checked="" /> Total Payments<br />
+            <input name="radyaxis" type="radio" value="ytd" /> Total Discharge<br />
+            <input name="radyaxis" type="radio" value="ytpd" /> Total Payments Per Discharge<br />
+        </form>
+    </div>
+
+    <div id="radio3" class="radios">
+        <span class="subsubtitle">Bubble Size</span><br />
+        <form name="radyform" id="radyform">
+            <input name="radyaxis" type="radio" value="rtp" /> Total Payments<br />
+            <input name="radyaxis" type="radio" value="rtd" checked="" /> Total Discharge<br />
+            <input name="radyaxis" type="radio" value="rtpd" /> Total Payments Per Discharge<br />
+        </form>
+    </div>
+
+    <div id="radio4" class="radios">
+        <span class="subsubtitle">Color</span><br />
+        <form name="radcolorform" id="radcolorform">
+            <input name="radcolor" type="radio" value="cregion" checked="" /> Region<br />
+            <input name="radcolor" type="radio" value="clens" /> Something<br />
+        </form>
+        <button onclick="resetcolor()">Reset Color</button>
+    </div>
+</div>
+
+<div id="distribution" class="svgcontainer"></div>
+
+</div>
+<script src="events.js"></script>
+
+
+</body></html>
