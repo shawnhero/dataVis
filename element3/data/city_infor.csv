@@ -1,4 +1,4 @@
-City ID,Provider City,Provider State,latitude_zip,longitude_zip
+city_id,city_name,state,lat,lon
 1,DOTHAN,AL,31.23,-85.4
 2,BOAZ,AL,34.2,-86.15
 3,FLORENCE,AL,34.82,-87.66
