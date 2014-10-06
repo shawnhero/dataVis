@@ -1,0 +1,6 @@
+.city_circle circle {
+	fill: #999;
+	cursor: pointer;
+	stroke-width: 2px;
+	stroke: #666;
+}
