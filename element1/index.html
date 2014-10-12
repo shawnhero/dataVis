@@ -1,14 +1,28 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <style>
-	.state{
-		fill: none;
+	.background {
+	  fill: none;
+	  pointer-events: all;
+	}
+
+	.states {
 		stroke: #a9a9a9;
 		stroke-width: 1;
 	}
-	.state:hover{
+
+	.states:hover{
 		fill-opacity:0.5;
 	}
+	#state-borders {
+	  fill: none;
+	  stroke: #a9a9a9;
+	  stroke-width: 1px;
+	  stroke-linejoin: round;
+	  stroke-linecap: round;
+	  pointer-events: none;
+	}
+	
 	#tooltip {   
 		position: absolute;           
 		text-align: center;
@@ -48,51 +62,12 @@
 		text-align:center;
 	}
 </style>
+<link rel="stylesheet" type="text/css" href="../circle.css">
 <body>
 <div id="tooltip"></div><!-- div to hold tooltip. -->
-<svg width="160" height="100" id="statesvg"></svg> <!-- svg to hold the map. -->
+<!-- <svg width="960" height="600" id="statesvg"></svg>  -->
+<script src="topojson.v1.min.js" type="text/javascript"></script>
+<script src="d3.v3.min.js"></script>
 <script src="uStates.js"></script> <!-- creates uStates. -->
-<script src="http://d3js.org/d3.v3.min.js"></script>
-<script>
-
-	function tooltipHtml(n, d){	/* function to create html content string in tooltip div. */
-		return "<h4>"+n+"</h4><table>"+
-			"<tr><td>Total_Payments</td><td>"+(d.Total_Payments)+"</td></tr>"+
-			"<tr><td>Total_Discharge</td><td>"+(d.Total_Discharge)+"</td></tr>"+
-			"<tr><td>Total_Payments_per_Discharge</td><td>"+(d.Total_Payments_per_Discharge)+"</td></tr>"+
-			"</table>";
-	}
-	
-	var sampleData ={};	/* Sample random data. */	
-
-
-    d3.csv("state_sum.csv", function(data) {
-    var datas ={};
-    data.forEach(function(d) {
-            datas[d.State] = {
-                Total_Payments: d.Total_Payments, 
-                Total_Discharge: d.Total_Discharge,
-                Total_Payments_per_Discharge: d.Total_Payments_per_Discharge 
-            };
-            var tmp =1;
-        });
-
-        var dataArray = new Array;
-        for(var key in datas) {
-            dataArray.push(+ datas[key].Total_Payments);
-        }
-        var max_val = d3.max(dataArray);
-        var min_val = d3.min(dataArray);
-
-        // now we add color
-        for(var key in datas){
-        	var val = datas[key].Total_Payments;
-        	datas[key].color = d3.interpolate("#ffffcc", "#800026")((val-min_val)/(max_val-min_val));
-        }
-		uStates.draw("#statesvg", datas, tooltipHtml);
-        var tmp =1;
-    });
-
-</script>
 
 </body>
