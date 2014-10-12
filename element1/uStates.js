@@ -70,6 +70,7 @@
 		
 		d3.select(id).selectAll(".state")
 			.data(uStatePaths).enter().append("path").attr("class","state").attr("d",function(d){ return d.d;})
+			.attr("transform", "translate(" + 960 / 2 + "," + 600 / 2 + ")scale(" + 1/6+ ")")
 			.style("fill",function(d){ 
 				try{
 					var i = data[d.id].color;

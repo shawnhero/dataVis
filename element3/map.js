@@ -12,7 +12,7 @@ var path = d3.geo.path()
 
 
 
-
+var packer = sm.packer();
 
 
 var svg = d3.select("body").append("svg")
@@ -36,6 +36,8 @@ var alldata={};
 //         .attr("d", path);
 // });
 
+
+
 d3.json("us.json", function(error, us) {
     g.append("g")
         .attr("id", "states")
@@ -50,6 +52,9 @@ d3.json("us.json", function(error, us) {
         .attr("id", "state-borders")
         .attr("d", path);
 
+    g.append("g")
+        .attr("id", "metros");
+
     // after we draw the map, we load the city_infor data to memory
     d3.csv('data/city_infor.csv', function(city_data){
         d3.csv('data/provider_infor.csv', function(provider_data){
@@ -59,7 +64,7 @@ d3.json("us.json", function(error, us) {
                 if(! alldata.hasOwnProperty(city_row.state)){
                     alldata[city_row.state] = {};
                 }
-                alldata[city_row.state]["c"+city_row.city_id] = city_row;
+                alldata[city_row.state][+city_row.city_id] = city_row;
             });
 
             // add the providers' information
@@ -67,7 +72,7 @@ d3.json("us.json", function(error, us) {
                 // first locate the provider's state
                 var curstate = city_data[provider_row.city_id-1].state;
                 // then add the provider's infor under the state/ city
-                var curcity = alldata[curstate]['c'+provider_row.city_id];
+                var curcity = alldata[curstate][+provider_row.city_id];
                 if( ! curcity.hasOwnProperty("providers") ){
                     curcity["providers"] = {};
                 }
@@ -101,6 +106,20 @@ d3.json("us.json", function(error, us) {
                     alldata[state][city]["total_cover"] = +cover;
                 }
             }
+
+            // sort all the city's infor and store the result 
+            // in an array (as the state's property)
+            for(var state in alldata){
+                allcity_id = [];
+                for(var city in alldata[state]){
+                    allcity_id.push(+city);
+                }
+                allcity_id.sort(function(a, b){
+                    return alldata[state][b]["total_payment"] -
+                        alldata[state][a]["total_payment"]
+                });
+                alldata[state]["payment_order_city_id"] = allcity_id;
+            }
         });
 
         
@@ -112,9 +131,8 @@ d3.json("us.json", function(error, us) {
 
 function clicked(d) {
     var x, y, k;
-    d3.selectAll("circle").remove();
     // set the scale rate
-    if (d && centered !== d) {
+    if (true){//(d && centered !== d) {
         var centroid = path.centroid(d);
         x = centroid[0];
         y = centroid[1];
@@ -125,6 +143,8 @@ function clicked(d) {
         var hscale  = width  / (bounds[1][0] - bounds[0][0]);
         var vscale  = height / (bounds[1][1] - bounds[0][1]);
         k   = (hscale < vscale) ? hscale : vscale;
+        // control k not to be too big
+        k = (k>18)?18:k;
     } 
     else {
         x = width / 2;
@@ -137,52 +157,267 @@ function clicked(d) {
 
     g.transition()
       .duration(750)
-      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
+      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k*0.9 + ")translate(" + -x + "," + -y + ")")
       .style("stroke-width", 1.5 / k + "px");
 
+
     // first we remove the other points showing in the map
+    d3.selectAll(".metro").remove();
+    //d3.selectAll("text").remove();
 
     
     // then we add all the cities in the current state as circles
-    // loop through the cities
-
-    // define the circle scale
-
+  
+    // for now we only 
+    try{
+        var curstate = alldata[d.id];
+    }
+    catch(error){
+        console.log(error);
+        return;
+    }
     
-    var curstate = alldata[d.id];
+    var msize = {'min':4, 'max':20};
     var circlescale = d3.scale.linear()
-            .rangeRound([1.5, 15])
+            // .range([10*Math.exp(-k/14),40*Math.exp(-k/14)])//([3-k/10, 12-k/10])
+            .range([Math.pow(msize['min'], 2), Math.pow(msize['max'], 2)])
             .domain(
-              [minObj(curstate, "total_payment"), 
+              [0,//minObj(curstate, "total_payment"), 
                 maxObj(curstate, "total_payment")]);
 
-    for(var key in curstate){
-        var curcity = curstate[key];
+
+    var flag = true;
+    var tooltip = d3.select("#popup");
+    var provider_tooltip = d3.select("#provider_popup");
+
+    // only display the first few cities
+
+    //for(var key in curstate)
+    curstate["payment_order_city_id"].slice(0,15).forEach(function(cid){
+    
+        var curcity = curstate[cid];
+        // define the radius
+        var r = circlescale(curcity.total_payment);
+        // first sqrt the r to make the circle proportional to the number
+        r = Math.sqrt(r);
+        // then divide by the scale rate
+        r = r/Math.sqrt(k*0.9);
         var xy = projection([curcity.lon, curcity.lat]);
-        var element = g.append('g')
-            .attr('transform', 'translate(' + Math.round(xy[0]) + ',' + Math.round(xy[1]) + ')');
+        var element = d3.select('#metros').append('g')
+            .attr('transform', 'translate(' + Math.round(xy[0]) + ',' + Math.round(xy[1]) + ')')
+            .attr("id", 'metro_'+d.id)
+            .attr('r', r)
+            .attr("class", "metro primary "+"city_id_"+curcity.city_id)
+            // mark the transform information
+            .classed('pos_'+ Math.round(xy[0])+'_'+ Math.round(xy[1]), true)
+            // city: mouse over
+            .on("mouseover", function(){
+               city_mouseover(this);
+            })
+            // city: mouse out
+            .on("mouseout", function(){
+                city_mouseout(this);
+            })
+            .on("click", function(){
+                var this_state = this.id.substring(6);
+                var this_city = this.classList[2].substring(8);
+                var this_pos = this.classList[3].split('_');
+                // delete the tooltip
+                tooltip.style("visibility", "hidden");
+                // remove all other cities
+                d3.selectAll('.metro').remove();
+
+                // 
+                var this_r = 16/Math.sqrt(k*0.9);
+                // add the current city(with a bigger radius)
+                var element = d3.select('#metros').append('g')
+                                .attr('transform', 'translate(' + this_pos[1] + ',' + this_pos[2] + ')')
+                                .attr("id", 'metro_'+this_state)
+                                .attr('r', this_r)
+                                .attr("class", "metro primary "+"city_id_"+this_city)
+                                .classed("still", true)
+                                .on('mouseover',function(){city_mouseover(this)})
+                                .on('mouseout', function(){city_mouseout(this)});
+                element.append('circle')
+                    .attr('r', this_r);
+                element.append('text')
+                    .attr('y', this_r*2)
+                    .text(alldata[this_state][this_city]['city_name'])
+                    //.attr("font-family", "sans-serif")
+                    .attr("font-size", this_r*0.8);
+                    
+                
+                // add providers' information here
+                var allpros = alldata[this_state][this_city]["providers"];
+                var pro_scale = d3.scale.linear()
+                    .range([Math.pow(msize['min'], 2), Math.pow(this_r, 2)])//([3-k/10, 12-k/10])
+                    .domain(
+                      [0,//minObj(allpros, "total_payment"), 
+                        maxObj(allpros, "total_payment")]);
+
+                var xx =0;
+                var yy = 0;
+                var radius = 1;
+                var step = 0;
+                var cor_xy = {'x0y0':0};
+                for(var key in allpros){
+                    var this_pro = allpros[key];
+                    // city_id: "269"
+                    // covered_charge: "321900212"
+                    // hos_name: "VIA CHRISTI HOSPITALS WICHITA INC"
+                    // medicare_payment: "69604786"
+                    // provider_id: "170122"
+                    // total_discharge: "8376"
+                    // total_payment: "81335784"
+                    
+                    // generate [-radius, rarius]
+                    // first generate [0, 2*radius]
+                    // define the radius
+                    while(cor_xy.hasOwnProperty('x'+xx+'y'+yy)){
+                        xx = Math.round(10000*Math.random())%(2*radius+1) - radius;
+                        yy = Math.round(10000*Math.random())%(2*radius+1) - radius;
+                    }
+                    cor_xy['x'+xx+'y'+yy] = 0;
+                    step ++;
+                    if(step%6==0) radius++;
+                 
+                    var pro_xy = projection([alldata[this_state][this_city].lon, alldata[this_state][this_city].lat]);
+                    var tx = Math.round(pro_xy[0]+xx);
+                    var ty = Math.round(pro_xy[1]+yy);
+                    
+                    var pro_r = pro_scale(this_pro.total_payment);
+                    pro_r = Math.sqrt(pro_r);
+                    var pro_percent = numeral( 
+                        this_pro.total_payment / alldata[this_state][this_city]["total_payment"]
+                        ).format('%0');
+                    
+                    var pro_element = d3.select('#metros').append('g')
+                        .attr('transform', 'translate(' + tx + ',' +  ty + ')')
+                        .attr("id", 'pros_'+this_city)
+                        .attr('r', pro_r)
+                        .attr("class", "metro providers "+this_state+'_'+this_city+'_'+key)
+                        .attr('fill','#E5949E')
+                        .attr('opacity','0.5')
+                        .on("mouseover", function(){
+                            // get the infor like this
+                            // 0: "CA"
+                            // 1: "41"
+                            // 2: "50599"
+                            var this_infor = this.classList[2].split('_');
+                            // get the hospital infor like this
+                            // city_id: "41"
+                            // covered_charge: "325526474"
+                            // hos_name: "SUTTER GENERAL HOSPITAL"
+                            // medicare_payment: "60831076"
+                            // provider_id: "50108"
+                            // total_discharge: "4418"
+                            // total_payment: "66642563"
+                            var this_provider = alldata[this_infor[0]][this_infor[1]]['providers'][this_infor[2]];
+                            
+                            
+                            provider_tooltip.style("visibility", "visible"); 
+                            d3.select(this)
+                                .classed("select", true);
+                                
+
+                            provider_tooltip.style("top", (d3.event.pageY -130)+"px")
+                                    .style("left",(d3.event.pageX+20)+"px");
+                            provider_tooltip.select("#popcity")
+                                .text(
+                                    alldata[this_infor[0]][this_infor[1]]['city_name']
+                                    );
+                            provider_tooltip.select("#pop_pro_name").text(this_provider['hos_name']);
+                            provider_tooltip.select("#poptd").text(numeral(this_provider['total_discharge']).format('0,0')
+                                );
+                            provider_tooltip.select("#poptp").text(numeral(this_provider['total_payment']).format('$0,0')
+                                );
+                            
+                        })
+                        .on("mouseout", function(){
+                            d3.select(this)
+                                .classed("select", false);
+                            // delete the tooltip
+                            provider_tooltip.style("visibility", "hidden");
+                        });
+                    pro_element.append('circle')
+                        .attr('r', pro_r);
+                    pro_element.append('text')
+                        .attr('y', pro_r/2)
+                        .text(pro_percent)
+                        //.attr("font-family", "sans-serif")
+                        .attr("font-size", pro_r*0.8);
+                }
+                var animation_pros = d3.selectAll('#pros_'+this_city)[0];
+                var animation_curcity = d3.selectAll('#metro_'+this_state).filter('.city_id_'+this_city)[0][0];
+                animation_pros.push(animation_curcity);
+                    // if there are not too many elements, do the animation
+                var this_packer = sm.packer();
+                this_packer.elements(animation_pros).start();
+
+               
+            });
+        // if(flag){
+        //     element.classed("sel_primary", true);
+        //     // flag = false;
+        // }
         element.append('circle')
-            .attr('r', circlescale(curcity.total_payment))
-            .attr("stroke", "black")
-            .attr("fill", "blue")
-            //.classed("city_circle", true)
-            .attr('city_id', curcity.city_id)
-            .attr('city_name', curcity.city_name);
-            //.attr('city_name', curcity[i].)   
+            .attr('r', r);
+        element.append('text')
+            .attr('y', function(){
+                var tmp = r;
+                var max_font = 2;
+                if(tmp<1) return 0.5;
+                if(tmp>max_font) return max_font/2;
+                return tmp/2;
 
-    }
-    var elements = d3.selectAll('circle');
-    var packer = sm.packer();
-    packer.elements(elements).start();
-    
-    
+            })
+            .text(curcity.city_name)
+            .attr("font-family", "sans-serif")
+            .attr("font-size", function(){
+                var tmp = r;
+                var max_font = 2;
+                if(tmp<1) return 1;
+                if(tmp>max_font) return max_font;
+                return tmp;
 
+            });
 
-    
-                        
-     
+    });
+    var cities = d3.selectAll('#metro_'+d.id)[0];
+    var city_packer = sm.packer();
+    city_packer.elements(cities).start();
+    // if there are not too many elements, do the animation
+    // packer.elements(elements).start(); 
 }
 
+function city_mouseover(that){
+    var tooltip = d3.select("#popup");
+    var this_state = that.id.substring(6);
+    var this_city = that.classList[2].substring(8);
+    var tmp = alldata[this_state]['c'+this_city];
+    tooltip.style("visibility", "visible"); 
+    d3.select(that)
+        .classed("select", true);
+
+
+    tooltip.style("top", (d3.event.pageY -130)+"px")
+        .style("left",(d3.event.pageX+20)+"px");
+    tooltip.select("#popstate").text(this_state);
+    tooltip.select("#popcity").text(alldata[this_state][this_city]['city_name']);
+    tooltip.select("#poptp").text(numeral(alldata[this_state][this_city]['total_payment']).format('$0,0'));
+    tooltip.select("#poptd").text(numeral(alldata[this_state][this_city]['total_discharge']).format('0,0'));
+    tooltip.select("#poptpd").text(numeral(alldata[this_state][this_city]['total_payment']/
+    alldata[this_state][this_city]['total_discharge']).format('$0,0')
+    );
+
+}
+function city_mouseout(that){
+    d3.select(that)
+        .classed("select", false);
+                // delete the tooltip
+    d3.select("#popup").style("visibility", "hidden");
+
+}
 function minObj(obj, prop){
     var min = Number.MAX_VALUE;
     for(var key in obj){
@@ -204,4 +439,3 @@ function maxObj(obj, prop){
     }
     return max;
 }
-

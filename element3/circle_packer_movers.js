@@ -1,5 +1,5 @@
 var sm = {};
-
+var delta = 1;
 sm.packer = function() {
    var packer = {},
        intervalId = 0,
@@ -31,7 +31,7 @@ sm.packer = function() {
                y: ay,
                r: parseFloat(ar),
                id: i,
-               sel: elements[i].getAttribute('class').search('sel_primary') !== -1 ? true : false
+               sel: elements[i].getAttribute('class').search('still') !== -1 ? true : false
            };
            
            //console.log(elements[i].getAttribute('class').search('sel_primary'), n.sel);
@@ -74,14 +74,23 @@ sm.packer = function() {
            var n = nodes[i];
            var s = startPos[i];
 
-		 if (Math.abs(n.x - s.x) > 5) {
+		 if (Math.abs(n.x - s.x) > delta) {
 			n.x += (s.x - n.x) * .1;
 		 }
-		 if (Math.abs(n.y - s.y) > 5) {
+		 if (Math.abs(n.y - s.y) > delta) {
 			n.y += (s.y - n.y) * .1;
 		 }
 
-	       e.setAttribute("transform", "translate(" + n.x + "," + n.y + ")");
+	       try{
+          if(isNaN(n.x) || isNaN(n.y)){
+            var tmp =1;
+          }
+          e.setAttribute("transform", "translate(" + n.x + "," + n.y + ")");
+         }
+         catch(error){
+            console.log(error);
+         }
+         
 		   e.setAttribute("r", n.r);
        }
    };
@@ -94,7 +103,7 @@ sm.packer = function() {
            var d = (v.x * v.x) + (v.y * v.y);
 
            v.normalize();
-           v.mult((a.r + b.r + 5 - Math.sqrt(d)) * .5);
+           v.mult((a.r + b.r + delta - Math.sqrt(d)) * .5);
 			
 		   if (!a.sel) {
 			   a.x += v.x;
@@ -133,7 +142,7 @@ sm.packer = function() {
    var intersects = function(a, b) {
       var d  = distance(a.x, a.y, b.x, b.y);
 
-      return (d < (a.r + b.r + 5));
+      return (d < (a.r + b.r + delta));
    };
 
    return packer;
