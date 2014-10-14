@@ -296,8 +296,6 @@ function clicked(d) {
                         .attr("id", 'pros_'+this_city)
                         .attr('r', pro_r)
                         .attr("class", "metro providers "+this_state+'_'+this_city+'_'+key)
-                        .attr('fill','#E5949E')
-                        .attr('opacity','0.5')
                         .on("mouseover", function(){
                             // get the infor like this
                             // 0: "CA"

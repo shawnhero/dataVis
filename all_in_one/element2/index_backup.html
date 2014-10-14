@@ -19,9 +19,9 @@
       }
       .container{
         width:1000px;
-/*        margin-left:auto;
+        margin-left:auto;
         margin-right:auto;
-        margin-top:20px;*/
+        margin-top:20px;
       }
       .maintitle{
         color:#EDC951;        
@@ -46,7 +46,7 @@
       }
       #distribution{
         height:500px;
-        /*margin-bottom:100px;*/
+        margin-bottom:100px;
       }
       .bar {
         fill:#EDC951;
@@ -138,6 +138,47 @@
 
 <div class="container">
 
+<div class="maintitle">Element 2</div>
+
+<div class="subtitle">Distribution</div>
+
+<div class="radiocontainer">
+    <div>text here.</div>
+    
+    <div id="radio1" class="radios">
+        <span class="subsubtitle">X-Axis</span><br />
+        <form name="radxform" id="radxform">
+            <input name="radxaxis" type="radio" value="xdefault" checked="" /> Default<br />
+        </form>
+    </div>
+
+    <div id="radio2" class="radios">
+        <span class="subsubtitle">Y-Axis</span><br />
+        <form name="radyform" id="radyform">
+            <input name="radyaxis" type="radio" value="ytp" checked="" /> Total Payments<br />
+            <input name="radyaxis" type="radio" value="ytd" /> Total Discharge<br />
+            <input name="radyaxis" type="radio" value="ytpd" /> Total Payments Per Discharge<br />
+        </form>
+    </div>
+
+    <div id="radio3" class="radios">
+        <span class="subsubtitle">Bubble Size</span><br />
+        <form name="radyform" id="radyform">
+            <input name="radyaxis" type="radio" value="rtp" /> Total Payments<br />
+            <input name="radyaxis" type="radio" value="rtd" checked="" /> Total Discharge<br />
+            <input name="radyaxis" type="radio" value="rtpd" /> Total Payments Per Discharge<br />
+        </form>
+    </div>
+
+    <div id="radio4" class="radios">
+        <span class="subsubtitle">Color</span><br />
+        <form name="radcolorform" id="radcolorform">
+            <input name="radcolor" type="radio" value="cregion" checked="" /> Region<br />
+            <input name="radcolor" type="radio" value="clens" /> Something<br />
+        </form>
+        <button onclick="resetcolor()">Reset Color</button>
+    </div>
+</div>
 
 <div id="distribution" class="svgcontainer"></div>
 

@@ -1,0 +1,68 @@
+  .container{
+    width:1000px;
+/*        margin-left:auto;
+    margin-right:auto;
+    margin-top:20px;*/
+  }
+
+  .donut{
+    width:50%;
+    position:relative;
+    float:left;
+  }
+  #timeline{ 
+      height:200px;
+  }
+  #distribution{
+    height:500px;
+    /*margin-bottom:100px;*/
+  }
+  .bar {
+    fill:#EDC951;
+  }
+
+  .axis path,.axis line {
+      fill:none;
+      stroke:#444444;
+      shape-rendering:crispEdges;
+  }
+  .axis text {
+    font-family:'Gilda Display', serif;
+    fill:#EDC951;   
+  }
+  .bartext {
+    fill:#EDC951;
+    text-anchor:middle;
+    font-size:12px;
+  }
+  .radios{
+    width:25%;
+    position:relative;
+    float:left;
+  }
+  .popup{
+      visibility:hidden;
+      border:1px solid #aaaaaa;
+      position:absolute;
+      background-color:#f2f2f2;/*323232*/
+      color: #755800 ;/*#EDC951;*/
+      padding:10px;
+      z-index:10;
+      opacity:0.9;
+  }
+
+  .popdetails{
+      width:220px;
+  }
+  .poptitle, .popdetail{
+      font-size:15px;
+      position:relative;
+      float:left;
+  }
+  .poptitle{
+      width:120px;
+      color:#00A0B0;
+  }
+  .popdetail{
+      width:100px;
+  }

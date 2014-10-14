@@ -9,12 +9,12 @@ var distyscale;
 var distxaxis;
 var distyaxis;
 var radscale;
-var distrad = {max:50,min:5};
+var distrad = {max:50/2,min:5/2};
 var color;
-var pagewidth = 1000;
-var distheight = 520;
+var pagewidth = 500;
+var distheight = 260;
 var barwidth=10;
-var margin = {top:45,bottom:25,left:80,right:25};
+var margin = {top:45,bottom:25,left:80,right:25};//{top:45,bottom:25,left:80,right:25};
 var radius = 175;
 var distribution;
 
