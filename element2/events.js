@@ -87,10 +87,12 @@ namespace2.main = function(){
                 .attr("transform", function(d) {
                     return "rotate(-65)" 
                     });
+        //formatValue = numeral().format('($ 0.00 a)');
         distyaxis = d3.svg.axis()
             .scale(distyscale)
             .orient("left")
-            .ticks(5);
+            .ticks(5)
+            .tickFormat(function(d){return numeral(d).format('(0a)')});
 
 
         //var distyxispos = pagewidth - margin.left;
@@ -159,7 +161,7 @@ namespace2.main = function(){
 
 
                 tooltip.select("#title_tp").text("Total Payments");
-                tooltip.select("#poptp").text(numeral(d.Total_Payments).format('$0,0'));
+                tooltip.select("#poptp").text(numeral(d.Total_Payments).format('($0.00 a)'));
                 tooltip.select("#title_td").text("Total Discharge");
                 tooltip.select("#poptd").text(
                     numeral(d.Total_Discharge).format('0,0'));
@@ -293,7 +295,7 @@ namespace2.call = function(sid){
     }
     d3.select("#d_state").text(sid);
     d3.select("#d_region").text(tmp.Region);
-    d3.select("#d_tp").text(numeral(tmp.Total_Payments).format('$0,0'));
+    d3.select("#d_tp").text(numeral(tmp.Total_Payments).format('($0.00 a)'));
     d3.select("#d_td").text(numeral(tmp.Total_Discharge).format('0,0'));
     d3.select("#d_tpd").text(numeral(tmp.Total_Payments_per_Discharge).format('$0,0'));
     
