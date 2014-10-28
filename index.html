@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<!-- This site was created in Webflow. http://www.webflow.com-->
+<!-- Last Published: Mon Oct 27 2014 23:34:25 GMT+0000 (UTC) -->
+<html data-wf-site="5431c56a9588b4116521296f" data-wf-page="5431c56a9588b41165212970">
+<head>
+  <meta charset="utf-8">
+  <title>datavisucla</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="generator" content="Webflow">
+  <link rel="stylesheet" type="text/css" href="css/normalize.css">
+  <link rel="stylesheet" type="text/css" href="css/webflow.css">
+  <link rel="stylesheet" type="text/css" href="css/datavisucla.webflow.css">
+
+<link rel="stylesheet" type="text/css" href="element1/ele1.css" />
+<link rel="stylesheet" type="text/css" href="element2/ele2.css" />
+<link rel="stylesheet" type="text/css" href="element3/circle.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
+  <script>
+    WebFont.load({
+      google: {
+        families: ["Exo:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic"]
+      }
+    });
+  </script>
+  <script type="text/javascript" src="js/modernizr.js"></script>
+  <link rel="shortcut icon" type="image/x-icon" href="https://daks2k3a4ib2z.cloudfront.net/placeholder/favicon.ico">
+
+
+<script src="lib/topojson.v1.min.js" type="text/javascript"></script>
+<script src="lib/d3.v3.min.js"></script>
+<script src="lib/circle_packer_movers.js" type="text/javascript"></script>
+<script src="lib/numeral.min.js" type="text/javascript"></script>
+<script src="global.js" type="text/javascript"></script>
+
+</head>
+<body>
+
+
+
+
+
+
+  <div class="popup" id="popup2">
+    <!-- <div class="thumb"><img id="thumb" src="thumbnails/loading.gif" name="thumb" /></div> -->
+
+  <table>
+        <tr>
+          <td class="poptitle">State</td>
+          <td class="popdetail" id="popstate"></td>
+        </tr>
+        <tr>
+          <td class="poptitle">Region</td>
+          <td class="popdetail" id="popregion"></td>
+        </tr>
+        <tr>
+          <td class="poptitle">Total Payments</td>
+          <td class="popdetail" id="poptp"></td>
+        </tr>
+        <tr>
+          <td class="poptitle">Total Discharge</td>
+          <td class="popdetail" id="poptd"></td>
+        </tr>
+        <tr>
+          <td class="poptitle">Payments/Discharge</td>
+          <td class="popdetail" id="poptpd"></td>
+        </tr>
+  </table>
+        <!-- <div class="poptitle">State</div>
+        <div class="popdetail" id="popstate"></div> -->
+        
+        
+        
+
+</div>
+
+<div class="popup" id="popup2">
+    <div class="popdetails">
+        <div class="poptitle" id='title_state'></div>
+        <div class="popdetail" id="popstate"></div>
+        <div class="poptitle" id='title_region'></div>
+        <div class="popdetail" id="popregion"></div>
+
+
+
+        <div class="poptitle" id='title_city'></div>
+        <div class="popdetail" id="popcity"></div>
+
+        <div class="poptitle" id='title_provider'></div>
+        <div class="popdetail" id="pop_pro_name"></div>
+
+        <div class="poptitle" id='title_td'></div>
+        <div class="popdetail" id="poptd"></div>
+
+        <div class="poptitle" id='title_tp'></div>
+        <div class="popdetail" id="poptp"></div>
+
+        <div class="poptitle" id='title_tpd'></div>
+        <div class="popdetail" id="poptpd"></div>
+    </div>
+</div>
+
+
+<div class="popup" id="popup3">
+    <div class="popdetails3">
+        <div class="poptitle3" id='title_state'></div>
+        <div class="popdetail3" id="popstate"></div>
+        <div class="poptitle3" id='title_region'></div>
+        <div class="popdetail3" id="popregion"></div>
+
+
+
+        <div class="poptitle3" id='title_city'></div>
+        <div class="popdetail3" id="popcity"></div>
+
+        <div class="poptitle3" id='title_provider'></div>
+        <div class="popdetail3" id="pop_pro_name"></div>
+
+        <div class="poptitle3" id='title_td'></div>
+        <div class="popdetail3" id="poptd"></div>
+
+        <div class="poptitle3" id='title_tp'></div>
+        <div class="popdetail3" id="poptp"></div>
+
+        <div class="poptitle3" id='title_tpd'></div>
+        <div class="popdetail3" id="poptpd"></div>
+    </div>
+</div>
+
+<div class="popup" id="popup_pro">
+    <div class="popdetails3">
+        <div class="poptitle3" id='title_state'></div>
+        <div class="popdetail3" id="popstate"></div>
+        <div class="poptitle3" id='title_region'></div>
+        <div class="popdetail3" id="popregion"></div>
+
+
+
+        <div class="poptitle3" id='title_city'></div>
+        <div class="popdetail3" id="popcity"></div>
+
+        <div class="poptitle3" id='title_provider'></div>
+        <div class="popdetail3" id="pop_pro_name"></div>
+
+        <div class="poptitle3" id='title_td'></div>
+        <div class="popdetail3" id="poptd"></div>
+
+        <div class="poptitle3" id='title_tp'></div>
+        <div class="popdetail3" id="poptp"></div>
+
+        <div class="poptitle3" id='title_tpd'></div>
+        <div class="popdetail3" id="poptpd"></div>
+    </div>
+</div>
+
+
+
+
+  <div>
+    <div class="w-row topbar">
+      <div class="w-col w-col-2"></div>
+      <div class="w-col w-col-2 w-clearfix">
+        <img class="ucla_logo" src="images/UCLA_logo.png" height="70" alt="5431d9830282e4a60a035b57_UCLA_logo.png">
+      </div>
+      <div class="w-col w-col-2 w-clearfix">
+        <p class="paragraph1">VisualMasters</p>
+      </div>
+      <div class="w-col w-col-2">
+        <div class="w-dropdown" data-delay="0">
+          <div class="w-dropdown-toggle team_drop">
+            <div class="team-text">Team Member</div>
+            <div class="w-icon-dropdown-toggle"></div>
+          </div>
+          <nav class="w-dropdown-list"><a class="w-dropdown-link" href="#">Kezhuo Li</a><a class="w-dropdown-link" href="#">Junzhu Su</a><a class="w-dropdown-link" href="#">Yajia Yang</a><a class="w-dropdown-link" href="#">Xu Wu</a>
+          </nav>
+        </div>
+      </div>
+      <div class="w-col w-col-2">
+        <div class="w-dropdown" data-delay="0">
+          <div class="w-dropdown-toggle data_drop">
+            <div class="datadrop">Data &amp; Tools</div>
+            <div class="w-icon-dropdown-toggle"></div>
+          </div>
+          <nav class="w-dropdown-list"><a class="w-dropdown-link" >CMS Inpatient</a><a class="w-dropdown-link" >Webflow</a>
+          </nav>
+        </div>
+      </div>
+      <div class="w-col w-col-2">
+        <div class="w-dropdown" data-delay="0">
+          <div class="w-dropdown-toggle">
+            <div class="sharedrop">Contact Us</div>
+            <div class="w-icon-dropdown-toggle"></div>
+          </div>
+          <nav class="w-dropdown-list"><a class="w-dropdown-link" >Link 1</a><a class="w-dropdown-link" >Link 2</a><a class="w-dropdown-link" >Link 3</a>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="title_sec">
+    <div class="heading_div">
+      <div class="w-container title_container">
+        <h1 class="mainheading">US HEALTH EXPENDITURE COMPARISON TOOL</h1>
+        <img class="scrolldown_buttom" src="images/scrolldown_buttom.png" width="35" alt="5439b2b4d787e1a1131b569a_scrolldown_buttom.png" data-ix="buttom-hover">
+      </div>
+    </div>
+  </div>
+  <div class="heading_sec" data-ix="display-none-on-load">
+    <div class="w-container pic_container">
+      <div class="w-row">
+        <div class="w-col w-col-5 w-clearfix">
+          <img class="health_cost_pic" src="images/Health Costs_crop.jpg" alt="543446e9f80673470f2b6099_Health%20Costs_crop.jpg">
+        </div>
+        <div class="w-col w-col-7 w-clearfix">
+          <h2 class="h2_issue">Pressing Issue</h2>
+          <p class="paragraph2">Big health spending variations throughout the country are largely driven by differences that go beyond the relative healthiness, or unhealthiness, of residents in each state. One potential factor, confirmed by Centers for Medicare &amp; Medicaid
+            Services (CMS) report, was that&nbsp;hospitals charging different prices for the same procedures.&nbsp;</p>
+          <h2 class="h2_tool">Our Tool</h2>
+          <p class="paragraph2">Our tool enables users to visualize and manipulate CMS data in order to compare procedure-based healthcare service expenditure among providers.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="gap2"></div>
+  <div class="radio_sec">
+    <div class="w-container radio_con">
+      <div class="global_tag">Global Value To Represent</div>
+      <div class="w-form w-clearfix myform">
+        <form class="top_form" id="email-form" name="email-form" data-name="Email Form">
+          <div class="w-radio">
+            <input class="w-radio-input" type="radio" name="radio_all" value="tp" data-name="radio_all" checked="">
+            <label class="w-form-label" for="tp">Total Payments</label>
+          </div>
+          <div class="w-radio">
+            <input class="w-radio-input"  type="radio" name="radio_all" value="td" data-name="radio_all">
+            <label class="w-form-label" for="td">Total Discharge</label>
+          </div>
+          <div class="w-radio">
+            <input class="w-radio-input" type="radio" name="radio_all" value="tpd" data-name="radio_all">
+            <label class="w-form-label" for="tpd">Payments per Discharge</label>
+          </div>
+        </form>
+
+      </div>
+      <div class="bubble_tag">Bubble Size(in Chart 2)</div>
+      <div class="w-form w-clearfix">
+        <form class="myform2" id="email-form-2" name="email-form-2" data-name="Email Form 2">
+          <div class="w-radio radiofield2">
+            <input class="w-radio-input"  type="radio" name="radio_bubble" value="btp" data-name="radio_bubble">
+            <label class="w-form-label" for="btp">Total Payments</label>
+          </div>
+          <div class="w-radio">
+            <input class="w-radio-input" id="btd" type="radio" name="radio_bubble" value="btd" data-name="radio_bubble" checked="">
+            <label class="w-form-label" for="radio">Total Discharge</label>
+          </div>
+          <div class="w-radio">
+            <input class="w-radio-input" id="btpd" type="radio" name="radio_bubble" value="btpd" data-name="radio_bubble">
+            <label class="w-form-label" for="radio-2">Payments per Discharge</label>
+          </div>
+        </form>
+        <div class="w-form-done">
+          <p>Thank you! Your submission has been received!</p>
+        </div>
+        <div class="w-form-fail">
+          <p>Oops! Something went wrong while submitting the form :(</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="chart1-2_sec">
+    <div class="w-container bottom_cont bottom1-2">
+      <div class="w-row">
+        <div class="w-col w-col-6 w-clearfix"><a class="button bottom1" >US Health Expenditure Overview</a>
+        </div>
+        <div class="w-col w-col-6 w-clearfix"><a class="button bottom2" >State Expenditure Details</a>
+        </div>
+      </div>
+    </div>
+    <div class="w-container chart12_container">
+      <div class="w-row">
+        <div class="w-col w-col-4" id='ele1'>
+          <script src="element1/uStates.js"></script> 
+        </div>
+        <div class="w-col w-col-4 col2">
+          <div>
+            <div class="w-clearfix"><a class="button labelbutton button1" >State</a><a class="button textbutton bp1" id='d_state' >NA</a>
+            </div>
+            <div class="w-clearfix"><a class="button labelbutton button2" >Region</a><a class="button textbutton bp2" id='d_region' >NA</a>
+            </div>
+            <div class="w-clearfix"><a class="button labelbutton button3" >Total Payments</a><a class="button textbutton bp3" id='d_tp' >NA</a>
+            </div>
+            <div class="w-clearfix"><a class="button labelbutton button4" >Total Discharge</a><a class="button textbutton bp4" id='d_td'>NA</a>
+            </div>
+            <div class="w-clearfix"><a class="button labelbutton button5" >Payments per Discharge</a><a class="button textbutton bp5" id='d_tpd' >NA</a>
+            </div>
+          </div>
+        </div>
+        <div class="w-col w-col-4"id='ele2'>
+          <script src="element2/events.js"></script>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="gap3"></div> -->
+  <div class="chart3_sec">
+    <div class="w-container bottom_cont bottom3"><a class="button bottom1" >City and Hospital Comparison</a>
+    </div>
+    <div class="w-container" id='ele3'>
+      <script src="element3/map.js" type="text/javascript"></script>
+    </div>
+  </div>
+  <div class="about_sec">
+    <div class="w-container"></div>
+  </div>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <div id="tooltip"></div>
+<script type="text/javascript" src="js/webflow.js"></script>
+<script type="text/javascript">
+  d3.selectAll("input").on("change",nowchange);
+</script>>
+  <!--[if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]-->
+</body>
+</html>

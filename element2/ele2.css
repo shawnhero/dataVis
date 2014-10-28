@@ -52,17 +52,17 @@
   }
 
   .popdetails{
-      width:220px;
+      width:190px;
   }
   .poptitle, .popdetail{
-      font-size:15px;
+      font-size:12px;
       position:relative;
       float:left;
   }
   .poptitle{
-      width:120px;
+      width:130px;
       color:#00A0B0;
   }
   .popdetail{
-      width:100px;
+      width:60px;
   }
