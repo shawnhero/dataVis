@@ -452,6 +452,13 @@ p {
 .chart12_container {
   padding-left: 0px;
 }
+#comments{
+  width: 70%;
+  margin-left: 15%;
+}
+
+
+
 html.w-mod-js *[data-ix="display-none-on-load"] {
   display: none;
 }
