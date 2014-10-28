@@ -116,18 +116,19 @@ namespace2.main = function(){
             .attr("dy", ".75em")
             .text("Total Payments");
         // add default bubble label
-        distribution.append("text")
-            .attr("class", "fix label")
-            .attr("text-anchor", "middle")
-            .attr("x", width*0.75)
-            .attr("y", margin.top)
-            .text("Bubble size:");
-        distribution.append("text")
-            .attr("class", "b label")
-            .attr("text-anchor", "middle")
-            .attr("x", width*0.75)
-            .attr("y", margin.top+18)
-            .text("Total Discharge");
+        // won't need it any more
+        // distribution.append("text")
+        //     .attr("class", "fix label")
+        //     .attr("text-anchor", "middle")
+        //     .attr("x", width*0.75)
+        //     .attr("y", margin.top)
+        //     .text("Bubble size:");
+        // distribution.append("text")
+        //     .attr("class", "b label")
+        //     .attr("text-anchor", "middle")
+        //     .attr("x", width*0.75)
+        //     .attr("y", margin.top+18)
+        //     .text("Total Discharge");
 
 
         distribution.selectAll("circle").data(part).enter()
@@ -194,8 +195,9 @@ namespace2.main = function(){
               return radscale(d[type]);}
             );
         // change the bubble label
-        distribution.select(".b.label")
-            .text(type.replace(/_/g,' '));
+        // won't need it any more
+        // distribution.select(".b.label")
+        //     .text(type.replace(/_/g,' '));
     }
     // function chang_cur(){
     //         onchange2(this.value);

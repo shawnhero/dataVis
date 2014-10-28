@@ -11,7 +11,7 @@ namespace3.main = function(){
     // var path = this.path;
     // var packer = this.packer;
     var centered;
-    var width = 1200;
+    var width = 960;
     var height = 400;
     var centered = null;
     var projection = d3.geo.albersUsa()
@@ -430,26 +430,31 @@ namespace3.main = function(){
                                 //     .text(
                                 //         alldata[this_infor[0]][this_infor[1]]['city_name']
                                 //         );
-                                provider_tooltip.select("#title_provider").text("Provider Name");
-                                provider_tooltip.select("#pop_pro_name").text(this_provider['hos_name']);
+                                remove_text();
+                                provider_tooltip.select("#popup_pro #title_provider").text("Provider Name");
+                                provider_tooltip.select("#popup_pro #pop_pro_name").text(this_provider['hos_name']);
 
                                 if(val_option=='tp'){
-                                    provider_tooltip.select("#title_tp").text("Total Payments");
-                                    provider_tooltip.select("#poptp").text(numeral(this_provider['total_payment']).format('$0,0')
+                                    provider_tooltip.select("#popup_pro #title_tp").text("Total Payments");
+                                    provider_tooltip.select("#popup_pro #poptp").text(numeral(this_provider['total_payment']).format('$0,0')
                                     );
                                 }
                                 else if (val_option=='td'){
-                                    provider_tooltip.select("#title_td").text("Total Discharge");
-                                    provider_tooltip.select("#poptd").text(numeral(this_provider['total_discharge']).format('0,0')
+                                    provider_tooltip.select("#popup_pro  #title_td").text("Total Discharge");
+                                    provider_tooltip.select("#popup_pro  #poptd").text(numeral(this_provider['total_discharge']).format('0,0')
                                     );
 
                                 }
                                 else{
-                                    provider_tooltip.select("#title_tpd").text("Total Payments Per Discharge");
-                                    provider_tooltip.select("#poptpd").text(numeral(this_provider['total_payment']/
+                                    provider_tooltip.select("#popup_pro  #title_tpd").text("Total Payments Per Discharge");
+                                    provider_tooltip.select("#popup_pro  #poptpd").text(numeral(this_provider['total_payment']/
                                     this_provider['total_discharge']).format('$0,0')
                                     );
 
+                                }
+                                function remove_text(){
+                                    provider_tooltip.selectAll("#popup_pro .poptitle3").text("");
+                                    provider_tooltip.selectAll("#popup_pro .popdetail3").text("");
                                 }
                                 
                             })
