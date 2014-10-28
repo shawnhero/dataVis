@@ -63,7 +63,7 @@ p {
   display: inline-block;
   padding: 4px 15px;
   float: left;
-  background-color: #575557;
+  background-color: #eaeaea;
   color: white;
   text-align: center;
   text-decoration: none;
@@ -83,8 +83,9 @@ p {
   float: right;
 }
 .button.textbutton {
+  color: white;
   float: none;
-  background-color: #731273;
+  background-color: #efd886;/*#731273;*/
 }
 .button.textbutton.bp1 {
   width: 70%;
@@ -104,6 +105,7 @@ p {
   padding-right: 26px;
 }
 .button.labelbutton {
+  color: grey;
   margin-left: 16px;
   padding-left: 11px;
   font-size: 12px;

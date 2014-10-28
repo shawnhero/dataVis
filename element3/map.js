@@ -144,6 +144,11 @@ namespace3.main = function(){
 
     function city_mouseover(that){
         var tooltip3 = d3.select("#popup3");
+        
+        tooltip3.selectAll("#popup3 .poptitle3").text("");
+        tooltip3.selectAll("#popup3 .popdetail3").text("");
+
+        
         var this_state = that.id.substring(6);
         var this_city = that.classList[2].substring(8);
         var tmp = alldata[this_state]['c'+this_city];
@@ -163,7 +168,7 @@ namespace3.main = function(){
 
         if(val_option=='tp'){
             tooltip3.select("#title_tp").text("Total Payments");
-            tooltip3.select("#poptp").text(numeral(alldata[this_state][this_city]['total_payment']).format('$0,0'));
+            tooltip3.select("#poptp").text(numeral(alldata[this_state][this_city]['total_payment']).format('$0.0a').toUpperCase());
         }
         else if (val_option=='td'){
             tooltip3.select("#title_td").text("Total Discharge");
@@ -442,7 +447,7 @@ namespace3.main = function(){
 
                                 if(val_option=='tp'){
                                     provider_tooltip.select("#popup_pro #title_tp").text("Total Payments");
-                                    provider_tooltip.select("#popup_pro #poptp").text(numeral(this_provider['total_payment']).format('$0,0')
+                                    provider_tooltip.select("#popup_pro #poptp").text(numeral(this_provider['total_payment']).format('$0.0a').toUpperCase()
                                     );
                                 }
                                 else if (val_option=='td'){

@@ -103,7 +103,7 @@ function e1(){
 
 	function tooltipHtml(n, d){	/* function to create html content string in tooltip div. */
 		return "<h4>"+n+"</h4><table>"+
-			"<tr><td>Payments</td><td>"+numeral(d.Total_Payments/1000000).format('$0,0')+"M"+"</td></tr>"+
+			"<tr><td>Payments</td><td>"+numeral(d.Total_Payments).format('($0.0 a)').toUpperCase()+"</td></tr>"+
 			"<tr><td>Discharge</td><td>"+numeral(d.Total_Discharge).format('0,0')+"</td></tr>"+
 			"<tr><td>Payments/Discharge</td><td>"+numeral(d.Total_Payments_per_Discharge).format('$0,0')+"</td></tr>"+
 			"</table>";
