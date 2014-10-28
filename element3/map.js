@@ -208,10 +208,16 @@ namespace3.main = function(){
         return max;
     }
     call3 = function(sid, val){
+        // change text in the col2
         var str = 'total_payment';
         if(val=='td') str = 'total_discharge';
         else if(val=='tpd') str="total_payment_per_discharge";
         if(sid=="") sid=cursid;
+        else{
+            // user clicked a state
+            // set the title
+            d3.select('#hints').text('State Overview');
+        }
 
 
         // get the data related to the current sid
@@ -253,7 +259,7 @@ namespace3.main = function(){
         var vscale  = height / (bounds[1][1] - bounds[0][1]);
         k   = (hscale < vscale) ? hscale : vscale;
         // control k not to be too big
-        k = k*0.7;
+        k = k*0.8;
         k = (k>11)?11:k;
 
         

@@ -279,7 +279,7 @@ namespace2.call = function(sid){
 
     .style("fill-opacity",function(d){
         if(d.State!=sid)
-            return 0.1;
+            return 0.2;
         else
             return 1;
     });
